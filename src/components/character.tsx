@@ -5,12 +5,14 @@ import { DisneyCharacter } from "../disney_character";
 const Character: React.FC<{ character: DisneyCharacter }> = ({ character }) => {
   // Define a default in case the character doesn't have an image
   let imageSrc = "https://picsum.photos/300/200/?blur";
-  if (character.imageUrl) {
+  if (character.imageUrl.indexOf("/revision") !== -1) {
     // API seems to include extra path for images so here we strip it off to fetch raw image
     imageSrc = character.imageUrl.substring(
       0,
       character.imageUrl.indexOf("/revision")
     );
+  } else if (character.imageUrl) {
+    imageSrc = character.imageUrl;
   }
 
   return (
