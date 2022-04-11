@@ -1,19 +1,20 @@
+import React, { useContext } from "react";
+import { FavouritesContext } from "../App";
 import { DisneyCharacter } from "../disney_character";
 
 // character.tsx
 interface CharacterProps {
   character: DisneyCharacter;
-  characterFavourites: Array<number>;
   updateFavourites: (favourites: Array<number>) => void;
 }
 
 // notice we're updating the props destructuring to access the two new props too:
 const Character: React.FC<CharacterProps> = ({
   character,
-  characterFavourites,
   updateFavourites,
 }) => {
   // Define a default in case the character doesn't have an image
+  const characterFavourites = useContext(FavouritesContext);
   let imageSrc = "https://picsum.photos/300/200/?blur";
   if (character.imageUrl.indexOf("/revision") !== -1) {
     // API seems to include extra path for images so here we strip it off to fetch raw image

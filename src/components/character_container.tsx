@@ -5,14 +5,12 @@ import Character from "./character";
 // character_container.tsx
 interface CharacterContainerProps {
   characters: Array<DisneyCharacter>;
-  characterFavourites: Array<number>;
   updateFavourites: (favourites: Array<number>) => void;
 }
 
 // notice we're updating the props destructuring to access the two new props too:
 const CharacterContainer: React.FC<CharacterContainerProps> = ({
   characters,
-  characterFavourites,
   updateFavourites,
 }) => {
   // rest of file here...
@@ -28,7 +26,6 @@ const CharacterContainer: React.FC<CharacterContainerProps> = ({
         <Character
           key={character._id}
           character={character}
-          characterFavourites={characterFavourites}
           updateFavourites={updateFavourites}
         />
       );
