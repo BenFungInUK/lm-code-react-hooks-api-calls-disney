@@ -9,6 +9,7 @@ import { DisneyCharacter } from "./disney_character";
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [characters, setCharacters] = useState<Array<DisneyCharacter>>([]);
+  const [characterFavourites, setCharacterFavourites] = useState<number[]>([]);
   useEffect(() => {
     getCharacters(currentPage);
   }, [currentPage]);
@@ -43,7 +44,11 @@ const App: React.FC = () => {
     <div className="page">
       <Header currentPage={currentPage} />
       <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      <CharacterContainer characters={characters} />
+      <CharacterContainer
+        characters={characters}
+        characterFavourites={characterFavourites}
+        updateFavourites={setCharacterFavourites}
+      />
     </div>
   );
 };
