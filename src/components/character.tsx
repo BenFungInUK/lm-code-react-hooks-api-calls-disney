@@ -1,20 +1,17 @@
-import React, { useContext } from "react";
-import { FavouritesContext } from "../App";
+import React from "react";
 import { DisneyCharacter } from "../disney_character";
+import { useFavouritesContext } from "./favourites_context";
 
 // character.tsx
 interface CharacterProps {
   character: DisneyCharacter;
-  updateFavourites: (favourites: Array<number>) => void;
 }
 
 // notice we're updating the props destructuring to access the two new props too:
-const Character: React.FC<CharacterProps> = ({
-  character,
-  updateFavourites,
-}) => {
+const Character: React.FC<CharacterProps> = ({ character }) => {
   // Define a default in case the character doesn't have an image
-  const characterFavourites = useContext(FavouritesContext);
+  const { characterFavourites, setCharacterFavourites } =
+    useFavouritesContext();
   let imageSrc = "https://picsum.photos/300/200/?blur";
   if (character.imageUrl.indexOf("/revision") !== -1) {
     // API seems to include extra path for images so here we strip it off to fetch raw image
@@ -26,16 +23,16 @@ const Character: React.FC<CharacterProps> = ({
     imageSrc = character.imageUrl;
   }
 
-  function toggleFavouriteForCharacter(characterId: number) {
-    if (!characterFavourites.includes(characterId)) {
+  function toggleFavouriteForCharacter(character: DisneyCharacter) {
+    if (!characterFavourites.includes(character)) {
       // add to favourites
-      updateFavourites([...characterFavourites, characterId]);
+      setCharacterFavourites([...characterFavourites, character]);
     } else {
       // remove from favourites
       const updatedFavourites = characterFavourites.filter(
-        (id) => id !== characterId
+        (favChar) => favChar._id !== character._id
       );
-      updateFavourites(updatedFavourites);
+      setCharacterFavourites(updatedFavourites);
     }
   }
 
@@ -45,9 +42,10 @@ const Character: React.FC<CharacterProps> = ({
 
       <div
         className="character-item__actions"
-        onClick={() => toggleFavouriteForCharacter(character._id)}
+        onClick={() => toggleFavouriteForCharacter(character)}
       >
-        {!characterFavourites.includes(character._id)
+        {characterFavourites.filter((fav) => fav._id === character._id)
+          .length === 0
           ? "Add to Favourites"
           : "Favourited"}
       </div>
