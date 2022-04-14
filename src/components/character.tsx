@@ -13,14 +13,14 @@ const Character: React.FC<CharacterProps> = ({ character }) => {
   const { characterFavourites, setCharacterFavourites } =
     useFavouritesContext();
   let imageSrc = "https://picsum.photos/300/200/?blur";
-  if (character.imageUrl.indexOf("/revision") !== -1) {
-    // API seems to include extra path for images so here we strip it off to fetch raw image
-    imageSrc = character.imageUrl.substring(
-      0,
-      character.imageUrl.indexOf("/revision")
-    );
-  } else if (character.imageUrl) {
-    imageSrc = character.imageUrl;
+  if (character.imageUrl !== undefined) {
+    if (character.imageUrl.indexOf("/revision") !== -1) {
+      // API seems to include extra path for images so here we strip it off to fetch raw image
+      imageSrc = character.imageUrl.substring(
+        0,
+        character.imageUrl.indexOf("/revision")
+      );
+    } else imageSrc = character.imageUrl;
   }
 
   function toggleFavouriteForCharacter(character: DisneyCharacter) {
